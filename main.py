@@ -1,21 +1,10 @@
 # main
-""" 
+from user_interactions import user_ops_menu
 
-
-1. Create an improved, user-friendly command-line interface (CLI) for the Library Management
- System with separate menus for each class of the system.
-
-    Welcome to the Library Management System! """
-
-#    Main Menu:
-#    1. Book Operations
- #   2. User Operations
-  #  3. Author Operations
- #   4. Genre Operations
-#    5. Quit
 
 def main_menu():
-
+  #  library = {}
+ 
 
     while True:
      
@@ -37,7 +26,7 @@ def main_menu():
             pass
        
        elif choice == 2:
-            #user_operations_menu()
+            user_ops_menu()
             pass
        
        elif choice == 3:

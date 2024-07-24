@@ -1,12 +1,42 @@
 # Create a class hierarchy
 
-class Book:
-    def __init__(self, title, author, isbn, published_date, is_available):
+class Genre:
+    def __init__(self, genre, description, category):
+        self.genre = genre
+        self.description = description
+        self.category = category
+
+    def add_new_genre(self):
+        pass    
+
+    def view_genre(self):
+        pass   
+
+    def display_all_genres(self):
+        pass  
+
+#Menu Actions:
+
+#- Adding a new book with all relevant details.
+
+#- Allowing users to borrow a book, marking it as "Borrowed."
+
+#- Allowing users to return a book, marking it as "Available."
+
+#- Searching for a book by its unique identifier (ISBN or title) and displaying its details.
+
+#- Displaying a list of all books with their unique identifiers.
+ 
+
+# Inheritance: Book inherits Genre class methods to assign books to genres
+class Book(Genre):
+    def __init__(self, title, author, isbn, published_date):
+        super().__init__(self)
         self.title = title
         self.author = author
         self.isbn = isbn
         self.published_date = published_date
-        self.is_available = is_available
+        self.is_available = True
 
     def add_book(self):
         pass
@@ -15,7 +45,7 @@ class Book:
         pass
 
     def return_book(self):
-        pass
+        self.is_available = True
 
     def book_search(self):
         pass
@@ -28,18 +58,17 @@ class Author:
         self.name = name
         self.biography = biography
 
-class Genre:
-    def __init__(self, genre):
-        self.genre = genre
+    def add_new_author(self):
+        pass    
+
+    def view_author(self):
+        pass   
+
+    def display_all_authors(self):
+        pass   
 
 
-class User:
-    def __init__(self, name, library_id):
-        self.name = name
-        self.library_id = library_id
-        self.borrowed_titles = []
 
-        
-        
+
 
     
