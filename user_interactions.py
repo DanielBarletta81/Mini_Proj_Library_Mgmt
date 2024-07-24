@@ -1,11 +1,12 @@
 # user interactions module
-from main import main_menu
+from main import main_menu # to go back to main menu from User menu
 class User:
     def __init__(self, name, library_id, branch):
         self.__name = name
         self.branch = branch
         self.__library_id = library_id
-        self.__books_loaned = []
+        self.users_list = {}
+        
        
 
 #encapsulation - getters and setters for private user attributes
@@ -21,30 +22,26 @@ class User:
     def set_user_id(self, new_library_id):
         self.__library_id = new_library_id   
         
-    def get_user_books(self):
-        return self.__books_loaned
     
-"""  def set_user_books(self):
-        self.__books_loaned """
-    
-def add_new_user(users):
-    name = input("Enter name: ")
-    library_id = input("Enter new library id: ")
-    branch = input("Enter the branch: ")
-    users[name] = User(name, library_id, branch)  
+    def add_new_user(self):
+        name = input("Enter name: ")
+        library_id = input("Enter new library id: ")
+        branch = input("Enter the branch: ")
+        self.users_list[name] = User(name, library_id, branch)  
 
-def view_user_details(users):
-    name = input("Enter users name: ")   
-    for item in users: #######################################
+    def view_user_details(self):
+        name = input("Enter users name: ")
+        if name not in self.users_list:
+            print(f'User {name} not found.')
+            return   
+        for item in self.users_list: #######################################
          print(f'{name} +++ {item}')   
 
-def display_all_users(users):
-        print(f'{users}')   
+    def display_all_users(self):
+        print(f'{self.users_list}')   
+    
 
-def user_ops_menu():
-     users = {}
-
-     while True:
+    while True:
      
        print("***  Welcome to the User Operations Menu! ***")
        print("\n Menu:")
@@ -59,13 +56,13 @@ def user_ops_menu():
             main_menu()
        
        elif choice == 1:
-            add_new_user(users)
+            add_new_user()
        
        elif choice == 2:
-            view_user_details(users)
+            view_user_details()
        
        elif choice == 3:
-            display_all_users(users)
+            display_all_users()
        
        else:
               print("Invalid selection, please try again.")
