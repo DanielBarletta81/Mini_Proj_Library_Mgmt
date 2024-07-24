@@ -1,5 +1,5 @@
           # Create a class hierarchy
-from main import main_menu
+
 
 class Genre:
     def __init__(self, name, description):
@@ -30,7 +30,7 @@ class Genre:
        choice = int(input("Please choose an option (1-4): "))
 
        if choice == 4:
-               main_menu()
+               break
        
        elif choice == 1:
             add_new_genre()

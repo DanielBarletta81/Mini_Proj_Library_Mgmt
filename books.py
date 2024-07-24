@@ -1,5 +1,5 @@
 from genres import Genre
-from main import main_menu
+
 # Inheritance: Book inherits Genre class methods to assign books to genres
 class Book(Genre):
     def __init__(self, title, author, isbn, published_date):
@@ -28,28 +28,37 @@ class Book(Genre):
             self.is_available = True
             print(f'Book {self.__isbn} ia now available.')
 
-    def book_search(self, book_id):
-        if book_id in self.__books_list:
-            print(f'Results for search {book_id} \nTitle: {self.__title}\n Author: {self.__author}\n ISBN: {self.isbn}\n Date Published: {self.published_date}')
-
     def assign_genre(self, assigned_genre):
         pass
 
-    def display_books(self):
-        for book in self.__books_list:
-            print(f'Full book list: {book}Title: {self.__title}\n Author: {self.__author}\n ISBN: {self.isbn}\n Date Published: {self.published_date}')
+def book_search( book_id, books):
+        if book_id in books:
+            print(f'Results for search {book_id} \nTitle: {self.__title}\n Author: {self.__author}\n ISBN: {self.isbn}\n Date Published: {self.published_date}')
 
 
 
-    def add_book(self, title, author, isbn, published_date):
-        if title in self.__books_list:
+def display_books(books):
+        for book in books:
+            print(f'Full book list: {book}Title: {book.__title}\n Author: {book.__author}\n ISBN: {book.isbn}\n Date Published: {book.published_date}')
+
+
+def add_book(books):
+        title = input("Enter book title: ")
+        if title in books:
             print(f'Error. {title} is already on list.')
             return
         else:
-            self.__books_list[title] = Book(title, author, isbn, published_date)
-        print(f'{title} by {author} has been added to list.')
+            
+            author = input("Enter author: ")
+            isbn = input("Enter book ISBN: ")
+            published_date = input("")
+            books[title] = Book(title, author, isbn, published_date)
+            print(f'{title} by {author} has been added to list.')
 
 
+
+def book_ops_menu():
+    books = {}
     while True:
      
        print("***  Welcome to the Book Operations Menu! ***")
@@ -62,10 +71,10 @@ class Book(Genre):
        choice = int(input("Please choose an option (1-4): "))
 
        if choice == 4:
-               main_menu()
+            break
        
        elif choice == 1:
-            add_book()
+            add_book(books)
        
        elif choice == 2:
             book_search()

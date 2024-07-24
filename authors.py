@@ -36,7 +36,7 @@ class Author:
        choice = int(input("Please choose an option (1-4): "))
 
        if choice == 4:
-               main_menu()
+            break
        
        elif choice == 1:
             add_new_author()
