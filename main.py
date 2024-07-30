@@ -36,7 +36,7 @@ def main():
      choice = int(input("Please choose an option (1-5): "))
 
      if choice == 5:
-               return
+          return
 
      try:
 
@@ -58,7 +58,7 @@ def main():
                 
                 
             elif choice == 5:
-                break
+                return
             
             else:
                 print("Input Error. Please select a valid choice.")

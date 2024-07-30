@@ -23,10 +23,10 @@ def add_a_book(cursor, id, title, author_id, genre_id, isbn, publication_date):
          print(f"An exception occurred: \n {e}")
 
 
-def borrow_book(cursor, id, user_id, book_id, borrow_date):
+def borrow_book(cursor, id,  user_id, book_id, borrow_date):
     try:
-        book_borrowed = (id, user_id, book_id, borrow_date)
-        query = "INSERT INTO borrowed_books() VALUES (%s, %s, %s, %s)"
+        book_borrowed = ( id, user_id, book_id, borrow_date)
+        query = "INSERT INTO borrowed_books(id, user_id, book_id, borrow_date) VALUES (%s, %s, %s, %s)"
        
         cursor.execute(query, book_borrowed)
 
@@ -37,12 +37,11 @@ def borrow_book(cursor, id, user_id, book_id, borrow_date):
     except Exception as e:
          print(f"An exception occurred:\n {e}")
 
-""
 
-def return_book(cursor, id, user_id, book_id, return_date):
+def return_book(cursor, id,  user_id, book_id, return_date):
     try:
-        book_returned = (id, user_id, book_id, return_date)
-        query = "INSERT INTO borrowed_books() VALUES (%s, %s, %s, %s)"
+        book_returned = ( id, user_id, book_id, return_date)
+        query = "INSERT INTO borrowed_books(id, user_id, book_id, return_date) VALUES ( %s, %s, %s, %s)"
        
         cursor.execute(query, book_returned)
 
@@ -59,7 +58,7 @@ def book_search(cursor, isbn):
 
         try:
            isbn = (isbn,)
-           query = "SELECT * FROM books WHERE isbn = %s;"
+           query = "SELECT * FROM books WHERE isbn =%s"
 
              # execute query
            cursor.execute(query)
@@ -123,8 +122,9 @@ def book_ops_menu():
 
             choice = int(input("Please choose an option (1-6): "))
 
-            if choice == 6:
-                return
+    if choice == 6:
+        return
+            
     try:
             cursor = conn.cursor() 
 
@@ -144,6 +144,7 @@ def book_ops_menu():
                 book_search(cursor, isbn)
 
                 conn.commit()
+                
 
             elif choice == 3:
                 display_books(cursor)
@@ -151,27 +152,34 @@ def book_ops_menu():
 
 
             elif choice == 4:
-                id = int(input("Enter id for borrowed book: "))
-                borrow_book(cursor, id)
+                id = int(input("Enter id for transaction: "))
+                user_id = int(input("Enter user id for borrowed book: "))
+                book_id = int(input("Enter book id for borrowed book: "))
+                borrow_date = input("What date was book borrowed? ")
+                borrow_book(cursor, id, user_id, book_id, borrow_date)
                 conn.commit()
+                
        
             elif choice == 5:
-                id = int(input("Enter id for returned book: "))
-                return_book(cursor, id)
+                id = int(input("Enter id for transaction: "))
+                user_id = int(input("Enter user id for returned book: "))
+                book_id = int(input("Enter book id for returned book: "))
+                return_date = input("What date was book returned? ")
+                return_book(cursor, id, user_id, book_id, return_date)
                 conn.commit()
        
             else:
                  print("Invalid selection, please try again.")
 
     except mysql.connector.Error as db_err:
-        print(f' Database Error: \n {db_err}')
+            print(f' Database Error: \n {db_err}')
        
        
     except Exception as e:
-         print(f"An exception occurred: {e}")
+            print(f"An exception occurred: {e}")
 
     finally:
-        if conn and conn.is_connected():
+            if conn and conn.is_connected():
                 conn.close()
                 print("MySQL connection closed.")
 #Menu Actions:
