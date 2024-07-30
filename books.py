@@ -1,91 +1,162 @@
-from genres import Genre
 
-# Inheritance: Book inherits Genre class methods to assign books to genres
-class Book(Genre):
-    def __init__(self, title, author, isbn, published_date):
-        super().__init__(self)
-        self.__title = title
-        self.__author = author
-        self.__isbn = isbn
-        self.__published_date = published_date
-        self.__is_available = True
-        self.__books_list = {}
+import mysql.connector
+
+from mysql.connector import Error
+
+
+db_name = "libraryDb"
+user = "root"
+password = "Babinz2023!"
+host = "localhost"
+
+def add_a_book(cursor, id, title, author_id, genre_id, isbn, publication_date):
+    try:
+       new_book = (id, title, author_id, genre_id, isbn, publication_date)
+       query = "INSERT INTO books(id, title, author_id, genre_id, isbn, publication_date) VALUES (%s, %s, %s, %s, %s, %s)"
        
-        
-
-    def get_title(self):
-        return self.__title
-        
-
-    def borrow_book(self):
-        if self.__is_available:
-            self.__is_available = False
-            return True
-        return False
-
-    def return_book(self, isbn):
-        if isbn not in self.__books_list:
-            self.is_available = True
-            print(f'Book {self.__isbn} ia now available.')
-
-    def assign_genre(self, assigned_genre):
-        pass
-
-def book_search( book_id, books):
-        if book_id in books:
-            print(f'Results for search {book_id} \nTitle: {self.__title}\n Author: {self.__author}\n ISBN: {self.isbn}\n Date Published: {self.published_date}')
+       cursor.execute(query, new_book)
 
 
-
-def display_books(books):
-        for book in books:
-            print(f'Full book list: {book}Title: {book.__title}\n Author: {book.__author}\n ISBN: {book.isbn}\n Date Published: {book.published_date}')
+    except Error as e:
+         print(f"An exception occurred: \n {e}")
 
 
-def add_book(books):
-        title = input("Enter book title: ")
-        if title in books:
-            print(f'Error. {title} is already on list.')
-            return
-        else:
+def borrow_book(cursor, id, user_id, book_id, borrow_date):
+    try:
+        book_borrowed = (id, user_id, book_id, borrow_date)
+        query = "INSERT INTO borrowed_books() VALUES (%s, %s, %s, %s)"
+       
+        cursor.execute(query, book_borrowed)
+
+    except mysql.connector.Error as db_err:
+        print(f' Database Error: \n {db_err}')
+       
+       
+    except Exception as e:
+         print(f"An exception occurred:\n {e}")
+
+""
+
+def return_book(cursor, id, user_id, book_id, return_date):
+    try:
+        book_returned = (id, user_id, book_id, return_date)
+        query = "INSERT INTO borrowed_books() VALUES (%s, %s, %s, %s)"
+       
+        cursor.execute(query, book_returned)
+
+    except mysql.connector.Error as db_err:
+        print(f' Database Error: \n {db_err}')
+       
+       
+    except Exception as e:
+         print(f"An exception occurred:\n {e}") 
+
+
+
+def book_search(cursor, isbn):
+
+        try:
+           isbn = (isbn,)
+           query = "SELECT * FROM books WHERE isbn = %s;"
+
+             # execute query
+           cursor.execute(query)
+            # get results from query
+           res = cursor.fetchone()
+           print(res)
+           
             
-            author = input("Enter author: ")
-            isbn = input("Enter book ISBN: ")
-            published_date = input("")
-            books[title] = Book(title, author, isbn, published_date)
-            print(f'{title} by {author} has been added to list.')
+
+        except mysql.connector.Error as db_err:
+            print(f' Database Error: \n {db_err}')
+       
+        except Exception as e:
+            print(f"An exception occurred:\n {e}")
+
+
+def display_books(cursor):
+             # SQL query to select all books
+        # Execute, fetch, and print results
+    try:
+        
+        query = "SELECT * FROM books;"
+       
+        cursor.execute(query)
+        res = cursor.fetchall()
+        for row in res:
+            print(row)
+           
+    
+    except mysql.connector.Error as db_err:
+        print(f' Database Error: \n {db_err}')
+       
+       
+    except Exception as e:
+         print(f"An exception occurred: {e}")
+
+
 
 
 
 def book_ops_menu():
-    books = {}
-    while True:
+    # establish connection
+    conn = mysql.connector.connect(buffered=True,
+            database = db_name,
+            user = user,
+            password = password,
+            host = host
+            )
      
-       print("***  Welcome to the Book Operations Menu! ***")
-       print("\n Menu:")
-       print("\n 1. Add a book")
-       print("\n 2. Find a book")
-       print("\n 3. Display all books")
-       print("\n 4. Back to Main Menu")
+    if conn is not None:
+    
+     
+            print("***  Welcome to the Book Operations Menu! ***")
+            print("\n Menu:")
+            print("\n 1. Add a book")
+            print("\n 2. Find a book")
+            print("\n 3. Display all books")
+            print("\n 4. Borrow a book")
+            print("\n 5. Return a book")
+            print("\n 6. Back to Main Menu")
 
-       choice = int(input("Please choose an option (1-4): "))
+            choice = int(input("Please choose an option (1-6): "))
 
-       if choice == 4:
-            break
-       
-       elif choice == 1:
-            add_book(books)
-       
-       elif choice == 2:
-            book_search()
-       
-       elif choice == 3:
-            display_books()
-       
-       else:
-              print("Invalid selection, please try again.")
+            if choice == 6:
+                return
+    try:
+            cursor = conn.cursor() 
 
+            if choice == 1:
+                add_a_book(cursor, id, title, author_id, genre_id, isbn, publication_date)
+       
+            elif choice == 2:
+                isbn = input('Enter the ISBN of the book: ')
+                book_search(cursor, isbn)
+       
+            elif choice == 3:
+                display_books(cursor)
 
+            elif choice == 4:
+                id = int(input(""))
+                borrow_book(cursor, id)
+       
+            elif choice == 5:
+                return_book(cursor, id)
+       
+            else:
+                 print("Invalid selection, please try again.")
+
+    except mysql.connector.Error as db_err:
+        print(f' Database Error: \n {db_err}')
+       
+       
+    except Exception as e:
+         print(f"An exception occurred: {e}")
+
+    finally:
+        if conn and conn.is_connected():
+                conn.close()
+                print("MySQL connection closed.")
 #Menu Actions:
 
 

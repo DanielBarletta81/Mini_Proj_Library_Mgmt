@@ -1,44 +1,88 @@
 # main
-from books import book_ops_menu
+
+import mysql.connector
+
+from mysql.connector import Error
+
+import books, genres, authors, users
 
 
-def main_menu():
-  #  library = {}
- 
+db_name = "libraryDb"
+user = "root"
+password = "Babinz2023!"
+host = "localhost"
 
-    while True:
+
+
+def main():
+    # establish connection
+    conn = mysql.connector.connect(buffered=True,
+            database = db_name,
+            user = user,
+            password = password,
+            host = host
+            )
+    if conn is not None:
      
        print("***  Welcome to the Library Management System! ***")
        print("\n Menu:")
-       print("\n 1. Book Operations")
-       print("\n 2. User Operations")
-       print("\n 3. Author Operations")
-       print("\n 4. Genre Operations")
-       print("\n 5. Quit")
+       print("\n 1. Book Operations Menu.")
+       print("\n 2. Author Operations Menu.")
+       print("\n 3. Genre Operations Menu. ")
+       print("\n 4. User Operations Menu. ")
+       print("\n 5. Quit. ")
 
        choice = int(input("Please choose an option (1-5): "))
 
        if choice == 5:
-              break
-       
-       elif choice == 1:
-            book_ops_menu()
-            
-       
-       elif choice == 2:
-            #user_ops_menu()
-            pass
-       
-       elif choice == 3:
-            #author_operations_menu()
-            pass
-       
-       elif choice == 4:
-            #genre_operations_menu()
-            pass
-       
-       else:
-              print("Invalid selection, please try again.")
-            
+               return
 
-main_menu()
+       try:
+            cursor = conn.cursor()
+
+            if choice == 1:
+               books.book_ops_menu()
+            
+              
+            elif choice == 2:
+
+               authors.author_menu()
+
+                   
+            elif choice == 3:
+                genres.genre_ops_menu()
+                
+
+            elif choice == 4:
+               users.user_menu()
+                
+                
+            elif choice == 5:
+                return
+            
+            else:
+                print("Input Error. Please select a valid choice.")
+
+
+       except mysql.connector.Error as db_err:
+            print(f' Database Error: \n {db_err}')
+         
+     
+       except Exception as e:
+            print(f'An exception occurred {e}')
+
+       finally:
+            if conn and conn.is_connected():
+                conn.close()
+                print("MySQL connection closed.")
+
+    
+
+           
+
+if __name__ == "__main__":
+     main()
+#Implement the following actions in response to menu selections 
+# using the classes you've created:
+#- Adding a new book with all relevant details.
+# - Allowing users to borrow a book, marking it as 
