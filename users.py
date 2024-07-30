@@ -84,7 +84,7 @@ def user_menu():
                if choice == 1:
                     id = int(input("Enter User Id: "))
                     name = input("Enter name: ")
-                    library_id = input("Enter new library id: ")
+                    library_id = int(input("Enter new library id: "))
                     add_new_user(cursor, id, name, library_id)
 
                     conn.commit()
