@@ -19,7 +19,7 @@ def add_a_book(cursor, id, title, author_id, genre_id, isbn, publication_date):
     except mysql.connector.Error as db_err:
         print(f' Database Error: \n {db_err}')
 
-    except Error as e:
+    except Exception as e:
          print(f"An exception occurred: \n {e}")
 
 
@@ -136,20 +136,29 @@ def book_ops_menu():
                 isbn = input("Enter book ISBN: ")
                 publication_date = input("Enter publication date: ")
                 add_a_book(cursor, id, title, author_id, genre_id, isbn, publication_date)
+
+                conn.commit()
        
             elif choice == 2:
                 isbn = input('Enter the ISBN of the book: ')
                 book_search(cursor, isbn)
-       
+
+                conn.commit()
+
             elif choice == 3:
                 display_books(cursor)
+                conn.commit()
+
 
             elif choice == 4:
-                id = int(input(""))
+                id = int(input("Enter id for borrowed book: "))
                 borrow_book(cursor, id)
+                conn.commit()
        
             elif choice == 5:
+                id = int(input("Enter id for returned book: "))
                 return_book(cursor, id)
+                conn.commit()
        
             else:
                  print("Invalid selection, please try again.")
