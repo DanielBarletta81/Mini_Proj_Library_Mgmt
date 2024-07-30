@@ -114,4 +114,3 @@ def user_menu():
                 conn.close()
                 print("MySQL connection closed.")
     
-user_menu()

@@ -1,8 +1,8 @@
 # main
 
-import mysql.connector
+#import mysql.connector
 
-from mysql.connector import Error
+#from mysql.connector import Error
 
 import books, genres, authors, users
 
@@ -15,30 +15,30 @@ host = "localhost"
 
 
 def main():
-    # establish connection
+  while True:
+     """   # establish connection
     conn = mysql.connector.connect(buffered=True,
             database = db_name,
             user = user,
             password = password,
             host = host
             )
-    if conn is not None:
+    if conn is not None: """
      
-       print("***  Welcome to the Library Management System! ***")
-       print("\n Menu:")
-       print("\n 1. Book Operations Menu.")
-       print("\n 2. Author Operations Menu.")
-       print("\n 3. Genre Operations Menu. ")
-       print("\n 4. User Operations Menu. ")
-       print("\n 5. Quit. ")
+     print("***  Welcome to the Library Management System! ***")
+     print("\n Menu:")
+     print("\n 1. Book Operations Menu.")
+     print("\n 2. Author Operations Menu.")
+     print("\n 3. Genre Operations Menu. ")
+     print("\n 4. User Operations Menu. ")
+     print("\n 5. Quit. ")
 
-       choice = int(input("Please choose an option (1-5): "))
+     choice = int(input("Please choose an option (1-5): "))
 
-       if choice == 5:
+     if choice == 5:
                return
 
-       try:
-            cursor = conn.cursor()
+     try:
 
             if choice == 1:
                books.book_ops_menu()
@@ -58,27 +58,18 @@ def main():
                 
                 
             elif choice == 5:
-                return
+                break
             
             else:
                 print("Input Error. Please select a valid choice.")
 
 
-       except mysql.connector.Error as db_err:
-            print(f' Database Error: \n {db_err}')
+     
          
      
-       except Exception as e:
+     except Exception as e:
             print(f'An exception occurred {e}')
-
-       finally:
-            if conn and conn.is_connected():
-                conn.close()
-                print("MySQL connection closed.")
-
     
-
-           
 
 if __name__ == "__main__":
      main()

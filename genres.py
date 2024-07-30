@@ -103,6 +103,7 @@ def genre_ops_menu():
                elif choice == 3:
                     display_genres(cursor)
                     conn.commit()
+                    
                else:
                     print("Invalid selection, please try again.")
 
@@ -120,4 +121,3 @@ def genre_ops_menu():
                 print("MySQL connection closed.")
 
     
-genre_ops_menu()

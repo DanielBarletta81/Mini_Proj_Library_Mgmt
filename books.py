@@ -16,6 +16,8 @@ def add_a_book(cursor, id, title, author_id, genre_id, isbn, publication_date):
        
        cursor.execute(query, new_book)
 
+    except mysql.connector.Error as db_err:
+        print(f' Database Error: \n {db_err}')
 
     except Error as e:
          print(f"An exception occurred: \n {e}")
@@ -127,6 +129,12 @@ def book_ops_menu():
             cursor = conn.cursor() 
 
             if choice == 1:
+                id = int(input("Enter new book id: "))
+                title = input("Enter book title: ")
+                author_id = int(input("Enter author id: "))
+                genre_id = int(input("Enter genre id: "))
+                isbn = input("Enter book ISBN: ")
+                publication_date = input("Enter publication date: ")
                 add_a_book(cursor, id, title, author_id, genre_id, isbn, publication_date)
        
             elif choice == 2:

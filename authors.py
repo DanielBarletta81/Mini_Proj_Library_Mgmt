@@ -100,4 +100,3 @@ def author_menu():
        except:
         print('An exception occurred') 
 
-author_menu()
